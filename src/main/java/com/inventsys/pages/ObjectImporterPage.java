@@ -14,14 +14,17 @@ public class ObjectImporterPage extends BasePage {
     // Properties File Paths
     String locatorsFilePath = "src/test/resources/locators.properties";
 
-    // Locators
+    // Locators Reader
     ConfigReader locatorsReader = new ConfigReader(locatorsFilePath);
+
+    // Locators
     String inputLocator = locatorsReader.getProperty("choose.input.locator");
     String uploadLocator = locatorsReader.getProperty("click.upload.locator");
-
+    String getFeedbackMessage = locatorsReader.getProperty("get.upload.feedback.message");
 
     By inputElementLocator = By.id(inputLocator);
     By clickUploadLocator = By.id(uploadLocator);
+    By getMessage = By.tagName(getFeedbackMessage);
 
     public ObjectImporterPage(WebDriver driver) {
         super(driver);
@@ -32,10 +35,8 @@ public class ObjectImporterPage extends BasePage {
             chooseFile(filePath);
             clickOnUpload();
             logger.info("Arquivo enviado com sucesso!");
-            //System.out.println("Arquivo enviado com sucesso!");
         } catch (Exception e) {
             logger.error("Erro ao enviar o arquivo: {}", e.getMessage(), e);
-            //System.out.println("Erro ao enviar o arquivo: " + e.getMessage());
         }
     }
 
@@ -47,5 +48,10 @@ public class ObjectImporterPage extends BasePage {
     public void clickOnUpload(){
         WebElement upload = driver.findElement(clickUploadLocator);
         upload.click();
+    }
+
+    public String getMessageFromUpload(){
+        WebElement h3Element = driver.findElement(getMessage);
+        return h3Element.getText();
     }
 }
