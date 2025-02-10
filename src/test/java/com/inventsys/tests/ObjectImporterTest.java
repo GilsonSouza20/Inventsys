@@ -1,33 +1,41 @@
 package com.inventsys.tests;
 
-//public class ObjectImporterTest {
-//}
 import com.inventsys.pages.ObjectImporterPage;
+import com.inventsys.utils.ConfigReader;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
+import com.inventsys.factory.DriverFactory;
+import org.openqa.selenium.WebDriver;
 
 public class ObjectImporterTest {
+    private WebDriver driver;
     private ObjectImporterPage objectImporterPage;
+    public ConfigReader properties;
+    public ConfigReader locators;
+    public String configFile = "src/test/resources/config.properties";
+    public String locatorsFile = "src/test/resources/locators.properties";
 
     @BeforeEach
     public void setUp() {
-        String driverPath = "drivers/chromedriver.exe";
-        String websiteUrl = "https://exemplo.com/upload";
-        objectImporterPage = new ObjectImporterPage(driverPath, websiteUrl);
-        objectImporterPage.startBrowser();
+        properties = new ConfigReader(configFile);
+        locators = new ConfigReader(locatorsFile);
+        driver = DriverFactory.getDriver();
+        driver.get(properties.getProperty("website.url"));
+        objectImporterPage = new ObjectImporterPage(driver);
     }
 
     @Test
     public void testUploadFile() {
-        String filePath = "src/test/resources/testdata/arquivo.txt"; // Caminho do arquivo
-        By inputElementLocator = By.id("file-input"); // Localizador do input de arquivo
-        objectImporterPage.uploadFile(filePath, inputElementLocator);
+        String filePath = properties.getProperty("upload.file.path");
+        By inputElementLocator = By.id(locators.getProperty("choose.input.locator"));
+        By clickUploadLocator = By.id(locators.getProperty("click.upload.locator"));
+        objectImporterPage.uploadFile(filePath, inputElementLocator, clickUploadLocator);
     }
 
     @AfterEach
     public void tearDown() {
-        objectImporterPage.closeBrowser();
+        DriverFactory.quitDriver();
     }
 }
