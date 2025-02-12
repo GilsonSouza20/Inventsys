@@ -20,11 +20,10 @@ public class ObjectImporterTest {
 
     private ObjectImporterPage objectImporterPage;
     public ConfigReader properties;
-    public String configFile = "src/test/resources/config.properties";
 
     @BeforeEach
     public void setUp() {
-        properties = new ConfigReader(configFile);
+        properties = new ConfigReader("config.properties");
         WebDriver driver = DriverFactory.getDriver();
         driver.get(properties.getProperty("website.url"));
         objectImporterPage = new ObjectImporterPage(driver);
@@ -36,12 +35,12 @@ public class ObjectImporterTest {
         objectImporterPage.uploadFile(filePath);
 
         assertNotNull(objectImporterPage.
-                getMessageFromUpload(), "A mensagem de sucesso não foi exibida na página!");
+                getMessageFromUpload(), "The success message was not displayed on the page!");
 
         assertTrue(objectImporterPage.
                 getMessageFromUpload()
                 .contains("File Uploaded!"),
-                "A mensagem de sucesso está incorreta. Mensagem atual: "
+                "The success message is incorrect. Current message: "
                         + objectImporterPage.getMessageFromUpload());
 
         logger.info(objectImporterPage.getMessageFromUpload());

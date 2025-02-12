@@ -11,11 +11,8 @@ public class ObjectImporterPage extends BasePage {
 
     private static final Logger logger = LoggerFactory.getLogger(ObjectImporterPage.class);
 
-    // Properties File Paths
-    String locatorsFilePath = "src/test/resources/locators.properties";
-
     // Locators Reader
-    ConfigReader locatorsReader = new ConfigReader(locatorsFilePath);
+    ConfigReader locatorsReader = new ConfigReader("locators.properties");
 
     // Locators
     String inputLocator = locatorsReader.getProperty("choose.input.locator");
@@ -34,9 +31,9 @@ public class ObjectImporterPage extends BasePage {
         try {
             chooseFile(filePath);
             clickOnUpload();
-            logger.info("Arquivo enviado com sucesso!");
+            logger.info("File sent successfully");
         } catch (Exception e) {
-            logger.error("Erro ao enviar o arquivo: {}", e.getMessage(), e);
+            logger.error("Error uploading the file: {}", e.getMessage(), e);
         }
     }
 
