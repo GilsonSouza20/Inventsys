@@ -23,7 +23,7 @@ public class ObjectImporterTest {
 
     @BeforeEach
     public void setUp() {
-        properties = new ConfigReader("config.properties");
+        properties = new ConfigReader("src/main/resources/config.properties");
         WebDriver driver = DriverFactory.getDriver();
         driver.get(properties.getProperty("website.url"));
         objectImporterPage = new ObjectImporterPage(driver);
