@@ -1,0 +1,14 @@
+image: maven:3.8.6-openjdk-11  # Imagem Docker com Maven e OpenJDK 11
+
+pipelines:
+  default:
+    - step:
+        name: Run Tests
+        caches:
+          - maven  # Cache do Maven
+        script:
+          - mvn clean install  # Executa o comando Maven para rodar os testes
+    - step:
+        name: Run JUnit Tests
+        script:
+          - mvn test  # Executa os testes unitários
